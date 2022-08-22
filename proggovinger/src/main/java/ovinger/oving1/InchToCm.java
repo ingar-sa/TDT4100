@@ -1,17 +1,18 @@
+package ovinger.oving1;
+
 public class InchToCm {
 
-    double convertToCm(double inches) {
+    public double convertToCm(double inches) {
 
-        return inches * 2.54;
+        if (inches < 0) 
+            throw new IllegalArgumentException("Value cannot be negative");
+
+
+        double cm = (Math.round(inches*2.54*100.0)/100.0);
+
+        return cm;
     }
 
-    public static void main(String[] args) {
-        Double[] testSet = new Double[] {1.54, 2.0, 3.45, 9.81, 12.0};
-        InchToCm converter = new InchToCm();
 
-        for (double dub : testSet) {
-            System.out.println(converter.convertToCm(dub));
-        }
-    }
-    
+
 }

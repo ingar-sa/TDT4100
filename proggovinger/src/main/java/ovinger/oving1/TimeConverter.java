@@ -1,3 +1,5 @@
+package ovinger.oving1;
+
 public class TimeConverter {
 
     private void validateSecAndMins(int time) {
