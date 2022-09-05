@@ -2,27 +2,49 @@ package ovinger.oving3;
 
 import static javax.swing.JOptionPane.*;
 
+import java.util.ArrayList;
+
 
 public class CheckIsPrime {
     
-    public boolean isPrime(int n) {
-        int m = 2;
-        int loopTo = (int)Math.ceil(Math.sqrt((double)n));
+    /**
+     * If the number is divisible by 2, it's not prime. If it's not divisible by 2, then it's not
+     * divisible by any odd number less than or equal to the square root of the number
+     * 
+     * @param n the number to check if it's prime
+     * @return The return value is a boolean.
+     */
+    public boolean isPrime(long n) {
+        long m = 2;
+        long loopTo = (int)Math.ceil(Math.sqrt((double)n));
+        System.out.println((double)loopTo / 2);
+        
+
+        if (n % m == 0)
+                return false;
+
+            ++m;
         
         do {
             if (n % m == 0)
                 return false;
 
-            ++m;
+            m += 2;
+
+            // if ((m+1) % 10000000 == 0) {
+            //     System.out.println(m / 2);
+            // }
+
         } while (m <= loopTo);
 
         return true;
     }
 
-    private int checkInputIsInt(String inpuString) {
+    private long checkInputIsInt(String inpuString) {
         
         try {
-            int parsedInt = Integer.parseInt(inpuString);
+            long parsedInt = Long.parseLong(inpuString);
+            System.out.println(parsedInt);
             if (parsedInt < 1) 
             throw new IllegalArgumentException("Number must be > 0");
             
@@ -34,6 +56,12 @@ public class CheckIsPrime {
     }
 
     public static void main(String[] args) {
+
+        int[] navn = new int[] { 1, 2 };
+        ArrayList<Integer> arraylist = new ArrayList<Integer>() { {
+            add(5);
+            add(4);
+        }};
 
         CheckIsPrime checkIsPrime = new CheckIsPrime();
         do {

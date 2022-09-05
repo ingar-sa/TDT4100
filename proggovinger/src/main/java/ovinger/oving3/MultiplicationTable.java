@@ -18,29 +18,36 @@ public class MultiplicationTable {
     }
 
    
-    private int checkInputIsInt(String inpuString) {
-        
-        try {
-            int parsedInt = Integer.parseInt(inpuString);
-            if (parsedInt < 1) 
-            throw new IllegalArgumentException("Number must be > 0");
-            
-            return parsedInt;
-
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Input must be an integer > 0");
-        }
+    private boolean checkInputIsInt(String inpuString) {
+        return true;
     }
 
     public static void main(String[] args) {
         MultiplicationTable tableGenerator = new MultiplicationTable();
 
         do {
-            int from = tableGenerator.checkInputIsInt(showInputDialog("Generate multiplication table from: "));
-            int to = tableGenerator.checkInputIsInt(showInputDialog("To: "));
-            tableGenerator.printMultiplicationTable(from, to);
-        } while (true);  //TODO: change
 
+            String stringFrom = showInputDialog("Generate multiplication table from: ");
+            String stringTo = showInputDialog("To: ");
+            
+            try {
+                int fromInt = Integer.parseInt(stringFrom);
+                int toInt = Integer.parseInt(stringTo);
+                tableGenerator.printMultiplicationTable(fromInt, toInt);
     
+            } catch (NumberFormatException e) {
+                System.out.println("Skriv inn paa nytt");
+            }   
+        } while (true);  //TODO: change
     }
 }
+
+// if (from && to) {
+            //     int fromInt = Integer.parseInt(stringFrom);
+            //     int toInt = Integer.parseInt(stringTo);
+                
+            //     tableGenerator.printMultiplicationTable(fromInt, toInt);
+            // }
+
+                // boolean from = tableGenerator.checkInputIsInt(stringFrom);
+            // boolean to = tableGenerator.checkInputIsInt(stringTo);
