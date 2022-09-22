@@ -12,22 +12,36 @@ public class MinRandom {
 
 
     public int nextInt(int min, int max) {
-        return rng.nextInt(max - min + 1) + min;
+        int nextRandom = rng.nextInt(max - min + 1) + min;
+        checkIntInRange(min, max, nextRandom);
+        return nextRandom;
     }
 
     public double nextDouble(double min, double max) {
-        return rng.nextDouble() * (max - min) + min;
+        double nextRandom = rng.nextDouble() * (max - min) + min;
+        checkDoubleInRange(min, max, nextRandom);
+        return nextRandom;
+    }
+
+    private void checkDoubleInRange(double min, double max, double n) {
+        if (n < min || n > max) 
+            throw new IllegalStateException("Number should not be outside the give range");
+    }
+
+    private void checkIntInRange(int min, int max, int n) {
+        if (n < min || n > max) 
+            throw new IllegalStateException("Number should not be outside the give range");
     }
 
     public static void main(String[] args) {
         MinRandom rng = new MinRandom();
 
-        for (int i = 0; i < 10; i++) {
-            System.out.println(rng.nextInt(1, 6));
+        for (int i = 0; i < 100; i++) {
+            System.out.println(rng.nextInt(1, i + 1));
         }
 
-        for (int i = 0; i < 10; i++) {
-            System.out.println(rng.nextDouble(1, 6));
+        for (int i = 0; i < 100; i++) {
+            System.out.println(rng.nextDouble(1, i + 1));
         }
     }
 }
