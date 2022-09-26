@@ -38,7 +38,12 @@ public class MinRandom {
         MinRandom rng = new MinRandom();
 
         for (int i = 0; i < 100; i++) {
-            System.out.println(rng.nesteHeltall(0, i + 1));
+            try {
+                System.out.println(rng.nesteHeltall(0, i + 1));                
+            } catch (Exception e) {
+                System.err.println(e + "melding");
+            }
+
         }
 
         for (int i = 0; i < 100; i++) {         

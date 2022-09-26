@@ -42,11 +42,5 @@ public class IntCounter {
             System.out.println(i + " occurred " + count + " times.");
         }
     }
-
-    public static void main(String[] args) {
-        IntCounter counter = new IntCounter();
-        counter.createTable(5000);
-        counter.printTable();
-    }
     
 }

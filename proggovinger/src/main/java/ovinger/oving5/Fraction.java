@@ -22,7 +22,7 @@ public class Fraction {
         this.denominator = 1;
     }
 
-    private int checkDenominatorNotZero(int numerator) {
+    private int checkDenominatorNotZero(int denominator) {
         if (denominator == 0) {
             throw new IllegalArgumentException("denominator cannot be zero");
         }

@@ -2,11 +2,9 @@ package ovinger.oving6;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import static javax.swing.JOptionPane.*;
+
 
 public class TekstAnalyse {
-
-
     
     private ArrayList<Integer> charCounter = new ArrayList<>();
     private HashMap<Character, Integer> norwegianChars = new HashMap<Character, Integer>(){
@@ -137,56 +135,5 @@ public class TekstAnalyse {
         for (Character character : charsThatOccurMost) {
             System.out.println(character + " occurs the most: " + most_occurences);
         }
-    }
-
-
-    public static void main(String[] args) {
-
-        while (true) {
-
-            String userString = showInputDialog("Tekst");        
-            TekstAnalyse analyse = new TekstAnalyse(userString);
-            boolean userchooses = true;
-
-            while(userchooses) {
-                String userChoice = showInputDialog("1) Antall forskjellige bokstaver 2) Totalt antall bokstaver 3) Prosent ikke bokstaver 4) Antall bestemt bokstav 5) Forekommer mest 6) exit");
-                int choice = Integer.parseInt(userChoice); //Could add error handling
-                switch (choice) {
-                    case 1:
-                        analyse.differentLetterCount();
-                        break;
-                    case 2:
-                        analyse.getTotalLetterCount();
-                        break;
-                    case 3:
-                        analyse.getPercentageNonLetter();
-                        break;
-                    case 4:
-                        {
-                            String userChar = showInputDialog("Letter");
-                            analyse.getLetterCount(userChar.charAt(0));
-                        }
-                        break;
-                    case 5:
-                        analyse.occursMostOften();
-                        break;
-                    case 6:
-                        userchooses = false;    
-                        break;
-                    default:
-                        System.out.println("invalid choice");
-                        break;
-                }
-
-            }
-            
-        }
-
-        // TekstAnalyse analyse = new TekstAnalyse("aaa,bbb,åååå");
-
-        // analyse.createTable();
-        // analyse.printTable();
-        // analyse.getLetterCount('a');
-        // analyse.occursMostOften();
     }
 }
