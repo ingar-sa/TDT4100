@@ -2,8 +2,6 @@ package ovinger.oving6;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import static javax.swing.JOptionPane.*;
 
 public class TekstAnalyse {
@@ -21,6 +19,11 @@ public class TekstAnalyse {
 
     private String userString;
 
+    TekstAnalyse(String userString) {
+        setup();
+        this.userString = userString.toUpperCase();
+        createTable();
+    }
 
     private void setup() {
         for (int i = 0; i < 30; i++) {
@@ -28,11 +31,13 @@ public class TekstAnalyse {
         }
     }
 
+    private void createTable() {
+        for (int i = 0; i < userString.length(); i++) {
+            Character currentChar = userString.charAt(i);
+            int index = getCharIndex(currentChar);
+            charCounter.set(index, charCounter.get(index) + 1);
+        }
 
-    TekstAnalyse(String userString) {
-        setup();
-        this.userString = userString.toUpperCase();
-        createTable();
     }
 
     private int getCharIndex(char currentChar) {
@@ -66,15 +71,9 @@ public class TekstAnalyse {
         }
     }
 
-    public void createTable() {
-        for (int i = 0; i < userString.length(); i++) {
-            Character currentChar = userString.charAt(i);
-            int index = getCharIndex(currentChar);
-            charCounter.set(index, charCounter.get(index) + 1);
-        }
-
-    }
-
+    //Get's the count of how many letters appeared in the text
+    //e.g. the strings "ABC" and "AAAABBBC" would both return 3
+    //since three different letters occurred in the text 
     public void differentLetterCount() {
         int count = 0;
         for (int i = 0; i < 29; i++) {
@@ -85,6 +84,8 @@ public class TekstAnalyse {
         System.out.println("Amount of different letters: " + count);
     }
 
+    //Get's the total amount of letters that appeared in the text
+    //e.g. "Hello World" would return 10
     public void getTotalLetterCount() {
         int count = 0;
         for (int i = 0; i < 29; i++) {
@@ -104,6 +105,10 @@ public class TekstAnalyse {
     //     }
     // }
 
+    //Gets the count of how many times the letter passed
+    //as an argument appeared in the text
+    //e.g. if the text is "Hello World", and you pass 'l'
+    //it would return 3
     public void getLetterCount(Character letter) {
         letter = Character.toUpperCase(letter);
         int index = getCharIndex(letter);
@@ -111,22 +116,26 @@ public class TekstAnalyse {
     }
 
     public void occursMostOften() {
-        int most = 0;
-        for (int count : charCounter) {
-            if (count > most)
-                most = count;
+        int most_occurences = 0;
+        // int index = 0;
+        for (int i = 0; i < 29; i++) {
+            int occurrences = charCounter.get(i);
+            if (occurrences > most_occurences) {
+                most_occurences = occurrences;
+                // index = i;
+            }  
         }
 
         ArrayList<Character> charsThatOccurMost = new ArrayList<>();
 
         for (int i = 0; i < 29; i++) {
-            if (charCounter.get(i) == most) {
+            if (charCounter.get(i) == most_occurences) {
                 charsThatOccurMost.add(getLetterFromIndex(i));
             }
         }
 
         for (Character character : charsThatOccurMost) {
-            System.out.println(character + " occurs the most: " + most);
+            System.out.println(character + " occurs the most: " + most_occurences);
         }
     }
 
@@ -141,7 +150,7 @@ public class TekstAnalyse {
 
             while(userchooses) {
                 String userChoice = showInputDialog("1) Antall forskjellige bokstaver 2) Totalt antall bokstaver 3) Prosent ikke bokstaver 4) Antall bestemt bokstav 5) Forekommer mest 6) exit");
-                int choice = Integer.parseInt(userChoice);
+                int choice = Integer.parseInt(userChoice); //Could add error handling
                 switch (choice) {
                     case 1:
                         analyse.differentLetterCount();
