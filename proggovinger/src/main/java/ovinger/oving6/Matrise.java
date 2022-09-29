@@ -2,7 +2,6 @@ package ovinger.oving6;
 
 import java.util.ArrayList;
 
-import javax.print.attribute.IntegerSyntax;
 
 public final class Matrise {
     

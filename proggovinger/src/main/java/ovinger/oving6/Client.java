@@ -85,9 +85,9 @@ public class Client {
         Client client = new Client();
 
         try {
-            client.intCounter();
+            // client.intCounter();
             client.tekstAnalyse();
-            client.matrix(); 
+            // client.matrix(); 
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println(e + "\n An error occurred while running a program");

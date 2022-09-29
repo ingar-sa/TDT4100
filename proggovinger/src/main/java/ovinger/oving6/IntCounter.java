@@ -1,12 +1,8 @@
 package ovinger.oving6;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-import javax.security.auth.login.CredentialException;
-
-//The class 
 
 public class IntCounter {
 
@@ -18,6 +14,7 @@ public class IntCounter {
         setup();
     }
 
+    // Puts the numbers 0-9 as keys in the hashmap
     private void setup() {
         for (int i = 0; i < 10; ++i) {
             numberTable.put(i, 0);
@@ -29,7 +26,7 @@ public class IntCounter {
         int updatedNumber = numberTable.get(newRandom) + 1;
         numberTable.put(newRandom, updatedNumber);
     }
-
+    
     public void createTable(int iterations) {
         for (int i = 0; i < iterations; ++i) {
             addRandomNumber();
