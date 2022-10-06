@@ -7,8 +7,8 @@ public class ExerciseClient {
 
         overview.addStudent("Per Hansen", 0);
         overview.addStudent("Ole Olsen", 0);
-
         overview.addStudent("Kari Nordmann", 0);
+
         overview.increaseNumberExercises("Per Hansen", 5);
         overview.increaseNumberExercises("Ole Olsen", 10);
         overview.increaseNumberExercises("Kari Nordmann", 15);

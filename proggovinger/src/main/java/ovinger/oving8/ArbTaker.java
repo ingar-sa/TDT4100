@@ -123,16 +123,22 @@ public class ArbTaker {
 
     @Override
     public String toString() {
-        return getNameLastFirst() + " har ansatt nr. " +
-        getEmployeeNr() + ", \ner " +
-        getAge() + " år gammel, \nble ansatt i " +
-        getYearEmployed() + ", \nhar vært ansatt i " +
-        getYearsEmployed() + " år, \nhar en månedslønn på " +
-        getMonthlySalary() + "kr \nog skatteprosent på " + 
-        getTaxRate() + "%, \nsom gir en månedlig skatt på " +
-        getMonthlyTax() + "kr \nog en årlig skatt på " +
-        getYearlyTax() + "kr.";
+        return "ArbTaker [person=" + person + ", employeeNr=" + employeeNr
+                + ", yearEmployed=" + yearEmployed + ", monthlySalary=" + monthlySalary + ", taxRate=" + taxRate + "]";
     }
+
+    // @Override
+    // public String toString() {
+    //     return getNameLastFirst() + " har ansatt nr. " +
+    //     getEmployeeNr() + ", \ner " +
+    //     getAge() + " år gammel, \nble ansatt i " +
+    //     getYearEmployed() + ", \nhar vært ansatt i " +
+    //     getYearsEmployed() + " år, \nhar en månedslønn på " +
+    //     getMonthlySalary() + "kr \nog skatteprosent på " + 
+    //     getTaxRate() + "%, \nsom gir en månedlig skatt på " +
+    //     getMonthlyTax() + "kr \nog en årlig skatt på " +
+    //     getYearlyTax() + "kr.";
+    // }
 
     
 

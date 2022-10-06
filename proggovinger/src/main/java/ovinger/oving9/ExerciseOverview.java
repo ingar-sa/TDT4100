@@ -28,6 +28,9 @@ public class ExerciseOverview {
      * @param numberExcersises The number of exercises the student has to do.
      */
     public void addStudent(String name, int numberExcersises) {
+        //Creating the student in the register class is called composition
+        //If it were made in the client program, it would be adjunction
+        //since the register and the student object are independent of eachother
         students.add(new Student(name, numberExcersises));
         numberOfStudents++;
     }
@@ -69,6 +72,7 @@ public class ExerciseOverview {
      * 
      * @return The toString method is being returned.
      */
+    //Change name
     public String toString() {
         String result = "";
         for (Student student : students) {
@@ -77,5 +81,7 @@ public class ExerciseOverview {
 
         return result;
     }
+
+    //Add tostring
 
 }

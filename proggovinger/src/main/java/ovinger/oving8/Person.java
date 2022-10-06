@@ -2,9 +2,9 @@ package ovinger.oving8;
 
 public final class Person {
     
-    private String firstname;
-    private String surname;
-    private int birthYear;
+    private final String firstname;
+    private final String surname;
+    private final int birthYear;
 
     public Person(String firstname, String surname, int birthYear) {
         this.firstname = firstname;

@@ -5,6 +5,8 @@ public class Student {
     private String name;
     private int numberExercises;
 
+
+    //TODO: Add javadoc
     public Student(String name, int numberExercises) {
         this.name = name;
         this.numberExercises = numberExercises;
@@ -37,13 +39,20 @@ public class Student {
         numberExercises += number;
     }
 
+    @Override
+    public String toString() {
+        return "Student [name=" + name + ", numberExercises=" + numberExercises + "]";
+    }
+
     /**
      * The function `toString()` is a function that is called when you try to print an object
      * 
      * @return The name of the student and the number of exercises they have done.
      */
-    @Override
-    public String toString() {
-        return "Student: " + name + " har gjort " + numberExercises + " øvinger";
-    }
+    // @Override
+    // public String toString() {
+    //     return "Student: " + name + " har gjort " + numberExercises + " øvinger";
+    // }
+
+    
 }
