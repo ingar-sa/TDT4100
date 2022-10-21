@@ -25,6 +25,10 @@ public class ArrangementRegister {
         arrangementer = new ArrayList<Arrangement>();
     }
 
+    public void addArrangement(Arrangement arrangement) {
+        arrangementer.add(arrangement);
+    }
+
     /**
      * > This function adds an Arrangement object to arrangementer
      *
