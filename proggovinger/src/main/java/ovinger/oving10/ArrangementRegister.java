@@ -25,12 +25,17 @@ public class ArrangementRegister {
         arrangementer = new ArrayList<Arrangement>();
     }
 
+    /**
+     * This function adds a new event to the register
+     * @param arrangement The event to add
+     */
     public void addArrangement(Arrangement arrangement) {
         arrangementer.add(arrangement);
     }
 
     /**
-     * > This function adds an Arrangement object to arrangementer
+     * > This function creates a new Arrangement object 
+     * and adds it to the register
      *
      * @param id The id of the event
      * @param date The date of the event
@@ -39,8 +44,8 @@ public class ArrangementRegister {
      * @param host The host of the event
      * @param type What type of event it is
      */
-    public void addArrangement(int id, int date, String name, String place, String host, String type) {
-        arrangementer.add(new Arrangement(id, date, name, place, host, type));
+    public void addArrangement(int id, int date, int time, String name, String place, String host, String type) {
+        arrangementer.add(new Arrangement(id, date, time, name, place, host, type));
     }
 
     /**
@@ -77,23 +82,44 @@ public class ArrangementRegister {
    /**
     * > This function returns an ArrayList of Arrangement objects that are between two dates.
     *   The dates do not have to be passed in any particular order. The function finds the
-    *   order of the dates
+    *   order of the dates that are passed as arguments.
     * 
     * @param date1 The first date to compare
     * @param date2 The other date to compare
     * @return A list of all the arrangements between the two dates.
     */
-    public ArrayList<Arrangement> getArrangementBetweenDates(int date1, int date2) {
-        int laterDate = (date1 > date2) ? date1 : date2;
-        int earlierDate = (date1 < date2) ? date1 : date2;
-
-        ArrayList<Arrangement> arrangementerBetweenDates = new ArrayList<Arrangement>();
-        arrangementer.stream().filter(arrangement -> arrangement.getDate() >= earlierDate && arrangement.getDate() <= laterDate)
-                        .forEach(arrangement -> arrangementerBetweenDates.add(arrangement));
+    public ArrayList<Arrangement> getArrangementBetweenTimes(int date1, int time1, int date2, int time2) {
+        int intervalForSameDate = 2359;
+        int date1And2 = date1 - date2;
+        int time1And2 = time1 - time2;
+        ArrayList<Arrangement> arrangementerBetweenTimes = new ArrayList<Arrangement>();
+        if (date1And2 > 0 || (date1And2 == 0 && time1And2 > 0)) {
+            arrangementer.stream().filter(arrangement -> arrangement.getDate() - date1 >= -intervalForSameDate && arrangement.getDate() - date1 <= intervalForSameDate)
+                            .filter(arrangement -> arrangement.getDate() - date2 >= -intervalForSameDate && arrangement.getDate() - date2 <= intervalForSameDate)
+                            .filter(arrangement -> arrangement.getDate() - date1 >= 0 || arrangement.getDate() - date2 <= 0)
+                            .forEach(arrangement -> arrangementerBetweenTimes.add(arrangement));
+        } else {
+            arrangementer.stream().filter(arrangement -> arrangement.getDate() - date1 >= -intervalForSameDate && arrangement.getDate() - date1 <= intervalForSameDate)
+                            .filter(arrangement -> arrangement.getDate() - date2 >= -intervalForSameDate && arrangement.getDate() - date2 <= intervalForSameDate)
+                            .filter(arrangement -> arrangement.getDate() - date1 <= 0 || arrangement.getDate() - date2 >= 0)
+                            .forEach(arrangement -> arrangementerBetweenTimes.add(arrangement));
+        }
         
-        arrangementerBetweenDates.sort((arrangement1, arrangement2) -> arrangement1.getDate() - arrangement2.getDate());
-        return new ArrayList<>(arrangementerBetweenDates);
+        return new ArrayList<>(arrangementerBetweenTimes);
     }
+
+
+    // public ArrayList<Arrangement> getArrangementBetweenDates(int date1, int date2) {
+    //     int laterDate = (date1 > date2) ? date1 : date2;
+    //     int earlierDate = (date1 < date2) ? date1 : date2;
+
+    //     ArrayList<Arrangement> arrangementerBetweenDates = new ArrayList<Arrangement>();
+    //     arrangementer.stream().filter(arrangement -> arrangement.getDate() >= earlierDate && arrangement.getDate() <= laterDate)
+    //                     .forEach(arrangement -> arrangementerBetweenDates.add(arrangement));
+        
+    //     arrangementerBetweenDates.sort((arrangement1, arrangement2) -> arrangement1.getDate() - arrangement2.getDate());
+    //     return new ArrayList<>(arrangementerBetweenDates);
+    // }
 
     
     /**
@@ -119,7 +145,14 @@ public class ArrangementRegister {
 
                     ArrayList<Arrangement> arrangementerOfType = arrangementerAtPlace.get(arrangement.getType());
                     arrangementerOfType.add(arrangement);
-                    arrangementerOfType.sort((arrangement1, arrangement2) -> arrangement1.getDate() - arrangement2.getDate());
+                    arrangementerOfType.sort((arrangement1, arrangement2) -> {
+                        int compareDates = arrangement1.getDate() - arrangement2.getDate();
+                        if (compareDates == 0) {
+                            return arrangement1.getTime() - arrangement2.getTime();
+                        } else {
+                            return compareDates;
+                        }
+                    });
                 }
                 // Else create a new list for events of this type
                 else {
@@ -129,7 +162,7 @@ public class ArrangementRegister {
                     arrangementerAtPlace.put(arrangement.getType(), arrangementerOfType);
                 }
             }
-            // Else create a new map for events of this type, and then put a list with *arrangement* in it
+            // Else create a new map for events at this place, and then put a list with *arrangement* in the new map
             else {
                 
                 HashMap<String, ArrayList<Arrangement>> mapForEventType = new HashMap<String, ArrayList<Arrangement>>();

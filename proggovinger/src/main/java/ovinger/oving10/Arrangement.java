@@ -15,7 +15,11 @@ public final class Arrangement {
     /**
      * The date of the event
      */
-    private int date;
+    private int date; //The date and time are split up because the int type can't hold the date and time in one variable
+    /**
+     * The time of the event
+     */
+    private int time; 
     /**
      * The name of the event
      */
@@ -37,12 +41,13 @@ public final class Arrangement {
      * The constructor takes all the parameters and initializes the fields
      * @param id The id of the event
      * @param date The date of the event
+     * @param name The time of the event
      * @param name The name of the event
      * @param place The place where the event is held
      * @param host The host of the event
      * @param type What type of event it is
      */
-    public Arrangement(int id, int date, String name, String place, String host, String type) {
+    public Arrangement(int id, int date, int time, String name, String place, String host, String type) {
         this.id = id;
         this.date = date;
         this.name = name;
@@ -70,6 +75,15 @@ public final class Arrangement {
     }
 
     /**
+     * This function returns the time of the event
+     * 
+     * @return The time of the event
+     */
+    public int getTime() {
+        return time;
+    }
+
+    /**
      * This function returns a copy of the name string.
      * 
      * @return A new String object is being returned.
@@ -79,7 +93,7 @@ public final class Arrangement {
     }
 
    /**
-    * This function returns a copy of the place field.
+    * This function returns a copy of the place string.
     * 
     * @return A new String object is being returned.
     */

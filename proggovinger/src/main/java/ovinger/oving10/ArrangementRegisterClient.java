@@ -58,7 +58,7 @@ public class ArrangementRegisterClient {
                         getEventsInTimeInterval();
                         break;
                     case 5:
-                        getAllEventsSorted();
+                        printAllEventsSorted();
                         break;
                     case 6:
                         userchooses = false;
@@ -96,18 +96,19 @@ public class ArrangementRegisterClient {
         try {
             int id = Integer.parseInt(eventInfoArray[0]);
             int date = Integer.parseInt(eventInfoArray[1]);
-            String name = eventInfoArray[2];
-            String place = eventInfoArray[3];
-            String host = eventInfoArray[4];
-            String type = eventInfoArray[5];
+            int time = Integer.parseInt(eventInfoArray[2]);
+            String name = eventInfoArray[3];
+            String place = eventInfoArray[4];
+            String host = eventInfoArray[5];
+            String type = eventInfoArray[6];
 
-            arrangementRegister.addArrangement(id, date, name, place, host, type);
+            arrangementRegister.addArrangement(id, date, time, name, place, host, type);
         } catch (Exception e) {
             throw new IllegalArgumentException("Invalid input");
         }
     }
     
-    private void getAllEventsSorted() {
+    private void printAllEventsSorted() {
         HashMap<String, HashMap<String, ArrayList<Arrangement>>> sortedEvents = arrangementRegister.getAllArrangementSorted();
 
         for (String place : sortedEvents.keySet()) {
@@ -122,6 +123,34 @@ public class ArrangementRegisterClient {
     }
 
     private void getEventsInTimeInterval() {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Enter start date and time separated by spaces");
+        String startInfo = in.nextLine();
+        System.out.println("Enter end date and time separated by spaces");
+        String endInfo = in.nextLine();
+        in.close();
+        String[] startInfoArray = startInfo.split(" ");
+        String[] endInfoArray = endInfo.split(" ");
+
+        if (startInfoArray.length != 2 || endInfoArray.length != 2) {
+            System.err.println("Wrong number of arguments");
+            throw new IllegalArgumentException();
+        }
+
+        try {
+            int startDate = Integer.parseInt(startInfoArray[0]);
+            int startTime = Integer.parseInt(startInfoArray[1]);
+            int endDate = Integer.parseInt(endInfoArray[0]);
+            int endTime = Integer.parseInt(endInfoArray[1]);
+
+            ArrayList<Arrangement> events = arrangementRegister.getArrangementInTimeInterval(startDate, startTime, endDate, endTime);
+
+            for (Arrangement arrangement : events) {
+                System.out.println(arrangement);
+            }
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Invalid input");
+        }
     }
 
     private void getEventsOnDate() {
