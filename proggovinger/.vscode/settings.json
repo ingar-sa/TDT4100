@@ -1,5 +1,0 @@
-{
-    "docwriter.style": "Javadoc",
-    "javadoc-tools.generateJavadoc.targetFolder": "./javadoc",
-    "javadoc-tools.generateJavadoc.workspaceSourceFolder": "./src/main/java"
-}
