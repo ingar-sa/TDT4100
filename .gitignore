@@ -1,1 +1,3 @@
-**/*.class
+proggovinger/target
+
+.vscode/
