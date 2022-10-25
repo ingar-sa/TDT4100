@@ -50,6 +50,7 @@ public final class Arrangement {
     public Arrangement(int id, int date, int time, String name, String place, String host, String type) {
         this.id = id;
         this.date = date;
+        this.time = time;
         this.name = name;
         this.place = place;
         this.host = host;
@@ -118,4 +119,12 @@ public final class Arrangement {
     public String getType() {
         return new String(type);
     }
+
+    @Override
+    public String toString() {
+        return "Arrangement [id=" + id + ", date=" + date + ", time=" + time + ", name=" + name + ", place=" + place
+                + ", host=" + host + ", type=" + type + "]";
+    }
+
+    
 }

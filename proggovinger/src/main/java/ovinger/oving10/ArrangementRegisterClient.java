@@ -3,6 +3,7 @@ package ovinger.oving10;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+import static javax.swing.JOptionPane.*;
 
 /**
  * @author Ingar S. Asheim
@@ -16,46 +17,50 @@ import java.util.Scanner;
  */
 public class ArrangementRegisterClient {
 
+    /**
+     * The register of events
+     */
     private ArrangementRegister arrangementRegister;
 
+    /**
+     * The constructor initializes the register of events
+     */
     ArrangementRegisterClient() {
         arrangementRegister = new ArrangementRegister();
     }
 
     /**
-     * This function runs the client loop.
+     * This function is the main loop of the program. It displays a menu and
+     * calls the appropriate functions based on the user's input.
      */
     public void runClient() {       
         boolean userchooses = true;
-        Scanner in = new Scanner(System.in);
 
         while(userchooses) {
-            System.out.println( 
-                "1) Add event\n" +
-                "2) Get events at place\n" +
-                "3) Get events on date\n" +
-                "4) Get events in time interval\n" +
-                "5) Get all events sorted\n" +
-                "6) Quit\n");
-             
-            String userChoice = in.nextLine();
-            System.out.println(userChoice);
+
+            System.out.println("1. Legg til arrangement\n"
+                    + "2. Hent arrangementer på sted\n"
+                    + "3. Hent arrangementer på dato\n"
+                    + "4. Hent arrangementer i tidsrom\n"
+                    + "5. Hent alle arrangementer sortert\n"
+                    + "6. Avslutt\n"); 
 
             try {
-                int choice = Integer.parseInt(userChoice); 
-
+                // int choice = scanner.nextInt();
+                int choice = Integer.parseInt(showInputDialog("Enter choice: "));
+            
                 switch (choice) {
                     case 1:
                         addEvent();
                         break;
                     case 2:
-                        getEventsAtPlace();
+                        printEventsAtPlace();
                         break;
                     case 3:
-                        getEventsOnDate();
+                        printEventsOnDate();
                         break;
                     case 4:
-                        getEventsInTimeInterval();
+                        printEventsInTimeInterval();
                         break;
                     case 5:
                         printAllEventsSorted();
@@ -72,23 +77,25 @@ public class ArrangementRegisterClient {
                 System.out.println("Ulovlig valg");
             }
 
+          
         }
-
-        in.close();
     }
 
+    /**
+     * This function adds a new event to the register
+     */
     private void addEventDebug(Arrangement arrangement) {
         arrangementRegister.addArrangement(arrangement);
     }
     
+    /**
+     * This function adds a new event to the register
+     */
     private void addEvent() throws IllegalArgumentException {
-        Scanner in = new Scanner(System.in);
-        System.out.println("Enter id, date, name, place, host and type separated by spaces");
-        String eventInfo = in.nextLine();
-        in.close();
-        String[] eventInfoArray = eventInfo.split(" ");
+        String input = showInputDialog("Enter id, date, time, name, place, host and type separated by spaces");
+        String[] eventInfoArray = input.split(" ");
 
-        if (eventInfoArray.length != 6) {
+        if (eventInfoArray.length != 7) {
             System.err.println("Wrong number of arguments");
             throw new IllegalArgumentException();
         }
@@ -108,6 +115,9 @@ public class ArrangementRegisterClient {
         }
     }
     
+    /**
+     * This function prints all the events at a given place
+     */
     private void printAllEventsSorted() {
         HashMap<String, HashMap<String, ArrayList<Arrangement>>> sortedEvents = arrangementRegister.getAllArrangementSorted();
 
@@ -122,13 +132,12 @@ public class ArrangementRegisterClient {
         }
     }
 
-    private void getEventsInTimeInterval() {
-        Scanner in = new Scanner(System.in);
-        System.out.println("Enter start date and time separated by spaces");
-        String startInfo = in.nextLine();
-        System.out.println("Enter end date and time separated by spaces");
-        String endInfo = in.nextLine();
-        in.close();
+    /**
+     * This function prints all the events at a given place
+     */
+    private void printEventsInTimeInterval() {        
+        String startInfo = showInputDialog("Enter start date and time separated by space");
+        String endInfo = showInputDialog("Enter end date and time separated by space");
         String[] startInfoArray = startInfo.split(" ");
         String[] endInfoArray = endInfo.split(" ");
 
@@ -143,7 +152,24 @@ public class ArrangementRegisterClient {
             int endDate = Integer.parseInt(endInfoArray[0]);
             int endTime = Integer.parseInt(endInfoArray[1]);
 
-            ArrayList<Arrangement> events = arrangementRegister.getArrangementInTimeInterval(startDate, startTime, endDate, endTime);
+            arrangementRegister.getArrangementBetweenTimes(startDate, startTime, endDate, endTime).stream().forEach((arrangement) -> {
+                System.out.println(arrangement);
+            });
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Invalid input");
+        }
+    }
+
+    /**
+     * This function prints all the events at a given place
+     */
+    private void printEventsOnDate() {
+        String date = showInputDialog("Enter date");
+
+        try {
+            int dateInt = Integer.parseInt(date);
+
+            ArrayList<Arrangement> events = arrangementRegister.getArrangementOnDate(dateInt);
 
             for (Arrangement arrangement : events) {
                 System.out.println(arrangement);
@@ -153,27 +179,38 @@ public class ArrangementRegisterClient {
         }
     }
 
-    private void getEventsOnDate() {
-    }
+    /**
+     * This function prints all the events at a given place
+     */
+    private void printEventsAtPlace() {
+        String place = showInputDialog("Enter place");
 
-    private void getEventsAtPlace() {
+        ArrayList<Arrangement> events = arrangementRegister.getArrangementerAtPlace(place);
+
+        for (Arrangement arrangement : events) {
+            System.out.println(arrangement);
+        }
     }
 
     
 
     public static void main(String[] args) {
         ArrangementRegisterClient client = new ArrangementRegisterClient();
-        client.runClient();
 
         // Add many Arrangement for testing
-        client.addEventDebug(new Arrangement(1, 201501011800, "Arrangement1", "Oslo", "Ingar", "Konferanse"));
-        client.addEventDebug(new Arrangement(2, 20150101, "Arrangement2", "Oslo", "Ingar", "Konferanse")); 
-        client.addEventDebug(new Arrangement(3, 20150101, "Arrangement3", "Oslo", "Ingar", "Konferanse"));
-        client.addEventDebug(new Arrangement(4, 20150101, "Arrangement4", "Oslo", "Ingar", "Konferanse"));
-        client.addEventDebug(new Arrangement(5, 20150101, "Arrangement5", "Oslo", "Ingar", "Konferanse"));
+        client.addEventDebug(new Arrangement(1, 20150101, 1800, "Arrangement1", "Oslo", "Ingar", "Konferanse"));
+        client.addEventDebug(new Arrangement(2, 20150101, 2000, "Arrangement2", "Oslo", "Ingar", "Konferanse")); 
+        client.addEventDebug(new Arrangement(3, 20150102, 2000, "Arrangement3", "Oslo", "Ingar", "Konferanse"));
+        client.addEventDebug(new Arrangement(4, 20150102, 2000, "Arrangement4", "Oslo", "Ingar", "Konferanse"));
+        client.addEventDebug(new Arrangement(5, 20150103, 1900, "Arrangement5", "Oslo", "Ingar", "Konferanse"));
 
+        // "6 20221025 1600 Foo Kube95 Ingar Progging"
+        // "7 20221025 2100 Foo Kube95 Ingar YouTube-seeing"
+        // "8 20221025 2100 Foo Kube95 Ingar Tidsparadoks"
+        // "9 20221025 1800 Sabaton Oslo OsloSpektrum Konsert"
 
-        System.out.println(arrangement);
+        client.runClient();
+        
     }
     
 }

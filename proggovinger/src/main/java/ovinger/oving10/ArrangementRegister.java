@@ -50,11 +50,12 @@ public class ArrangementRegister {
 
     /**
      * > This function returns an ArrayList of Arrangement objects that are located at the place
-     * specified by the parameter
+     * specified by the parameter.
      * 
      * @param place The place you want to get the events from
      * @return A list of all the events at a given place
      */
+     //TODO: Heller utløse et NoSuchElementException?
     public ArrayList<Arrangement> getArrangementerAtPlace(String place) {
         ArrayList<Arrangement> arrangementerAtPlace = new ArrayList<Arrangement>();
         arrangementer.stream().filter(arrangement -> arrangement.getPlace().equals(place))
@@ -65,66 +66,59 @@ public class ArrangementRegister {
 
     /**
      * > This function returns an ArrayList of Arrangement objects that are on the same date as the
-     * date parameter. The list is not sorted
+     * date parameter. The list is not sorted. 
      * 
-     * @param date The date you want to get the arrangements for
-     * @return An ArrayList of Arrangement objects
+     * @param date The date you want to get events for
+     * @return A list of the events on that date
      */
+    //TODO: Skrive typer for input og returverdi i javadoc?
     public ArrayList<Arrangement> getArrangementOnDate(int date) {
-        int intervalForSameDate = 2359;
         ArrayList<Arrangement> arrangementerOnDate = new ArrayList<Arrangement>();
-        arrangementer.stream().filter(arrangement -> arrangement.getDate() - date >= -intervalForSameDate && arrangement.getDate() - date <= intervalForSameDate)
+        arrangementer.stream().filter(arrangement -> arrangement.getDate() == date)
                         .forEach(arrangement -> arrangementerOnDate.add(arrangement));
-        
+
         return new ArrayList<>(arrangementerOnDate);
     }
 
    /**
-    * > This function returns an ArrayList of Arrangement objects that are between two dates.
-    *   The dates do not have to be passed in any particular order. The function finds the
-    *   order of the dates that are passed as arguments.
-    * 
-    * @param date1 The first date to compare
-    * @param date2 The other date to compare
-    * @return A list of all the arrangements between the two dates.
+    * > This function returns an ArrayList of Arrangement objects that are 
+    * between two points in time.
+    * @param date1 The start date
+    * @param time1 The start time
+    * @param date2 The end date
+    * @param time2 The end time
+    * @return A list of all the arrangements between the two dates sorted by time
     */
     public ArrayList<Arrangement> getArrangementBetweenTimes(int date1, int time1, int date2, int time2) {
-        int intervalForSameDate = 2359;
-        int date1And2 = date1 - date2;
-        int time1And2 = time1 - time2;
+        int date1And2 = date2 - date1;
+        int time1And2 = time2 - time1;
         ArrayList<Arrangement> arrangementerBetweenTimes = new ArrayList<Arrangement>();
-        if (date1And2 > 0 || (date1And2 == 0 && time1And2 > 0)) {
-            arrangementer.stream().filter(arrangement -> arrangement.getDate() - date1 >= -intervalForSameDate && arrangement.getDate() - date1 <= intervalForSameDate)
-                            .filter(arrangement -> arrangement.getDate() - date2 >= -intervalForSameDate && arrangement.getDate() - date2 <= intervalForSameDate)
-                            .filter(arrangement -> arrangement.getDate() - date1 >= 0 || arrangement.getDate() - date2 <= 0)
-                            .forEach(arrangement -> arrangementerBetweenTimes.add(arrangement));
-        } else {
-            arrangementer.stream().filter(arrangement -> arrangement.getDate() - date1 >= -intervalForSameDate && arrangement.getDate() - date1 <= intervalForSameDate)
-                            .filter(arrangement -> arrangement.getDate() - date2 >= -intervalForSameDate && arrangement.getDate() - date2 <= intervalForSameDate)
-                            .filter(arrangement -> arrangement.getDate() - date1 <= 0 || arrangement.getDate() - date2 >= 0)
-                            .forEach(arrangement -> arrangementerBetweenTimes.add(arrangement));
-        }
         
+        if (date1And2 > 0 || (date1And2 == 0 && time1And2 > 0)) {
+            arrangementer.stream().filter(arrangement -> arrangement.getDate() - date1 >= 0 && arrangement.getDate() - date2 <= 0)
+                            .filter(arrangement -> arrangement.getTime() - time1 >= 0 && arrangement.getTime() - time2 <= 0)
+                            .forEach(arrangement -> arrangementerBetweenTimes.add(arrangement));
+        }              
+        else {
+            throw new IllegalArgumentException("The first date and time must be before the second date and time");
+        }
+
+        arrangementerBetweenTimes.stream().sorted((arr1, arr2) -> {
+            if (arr1.getDate() - arr2.getDate() == 0) {
+                return arr1.getTime() - arr2.getTime();
+            }
+            else {
+                return arr1.getDate() - arr2.getDate();
+            }
+        });
+
         return new ArrayList<>(arrangementerBetweenTimes);
     }
 
-
-    // public ArrayList<Arrangement> getArrangementBetweenDates(int date1, int date2) {
-    //     int laterDate = (date1 > date2) ? date1 : date2;
-    //     int earlierDate = (date1 < date2) ? date1 : date2;
-
-    //     ArrayList<Arrangement> arrangementerBetweenDates = new ArrayList<Arrangement>();
-    //     arrangementer.stream().filter(arrangement -> arrangement.getDate() >= earlierDate && arrangement.getDate() <= laterDate)
-    //                     .forEach(arrangement -> arrangementerBetweenDates.add(arrangement));
-        
-    //     arrangementerBetweenDates.sort((arrangement1, arrangement2) -> arrangement1.getDate() - arrangement2.getDate());
-    //     return new ArrayList<>(arrangementerBetweenDates);
-    // }
-
     
     /**
-     * Sorts the list of Arrangement objects (arrangementer) first by place,
-     * then by type, and then by time
+     * Returns a HashMap of all events sorted, first by place,
+     * then by type, and then by time.
      * 
      * @return A HashMap of HashMaps of ArrayLists of Arrangement objects
      */
