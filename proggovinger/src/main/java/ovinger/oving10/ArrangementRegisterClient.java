@@ -208,6 +208,7 @@ public class ArrangementRegisterClient {
         // "7 20221025 2100 Foo Kube95 Ingar YouTube-seeing"
         // "8 20221025 2100 Foo Kube95 Ingar Tidsparadoks"
         // "9 20221025 1800 Sabaton Oslo OsloSpektrum Konsert"
+        // "9 20221025 1800 Sabaton Oslo OsloSpektrum Konsert"
 
         client.runClient();
         
