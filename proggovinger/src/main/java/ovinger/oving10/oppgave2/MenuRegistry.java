@@ -49,7 +49,7 @@ public class MenuRegistry {
         ArrayList<Dish> menuDishes = new ArrayList<Dish>();
 
         try {
-            menuDishes = dishNames.stream().map(name -> getDishFromName(name)).collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+            menuDishes = dishNames.stream().map(name -> getDishByName(name)).collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
         } catch (NoSuchElementException e) {
             throw new NoSuchElementException("One or more of the dishes does not exist");
         }
@@ -76,7 +76,7 @@ public class MenuRegistry {
      * @return The dish with the name passed as an argument
      * @throws NoSuchElementException if no dish with the name passed as an argument exists
      */
-    public Dish getDishFromName(String name) {
+    public Dish getDishByName(String name) {
         try {
             return dishes.stream().filter(dish -> dish.getName().equals(name)).findFirst().get();
         } catch (NoSuchElementException  e) {
@@ -90,7 +90,7 @@ public class MenuRegistry {
      * @return A list of all dishes of the type passed as an argument
      * @throws NoSuchElementException If there are no dishes of the type passed as an argument
      */
-    public ArrayList<Dish> getDishesFromType(String type) {
+    public ArrayList<Dish> getDishesOfType(String type) {
         try {
             return dishes.stream().filter(dish -> dish.getType().equals(type)).collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
         } catch (NoSuchElementException e) {

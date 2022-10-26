@@ -67,4 +67,11 @@ public final class Dish {
     public String getRecipe() {
         return new String(recipe);
     }
+
+    @Override
+    public String toString() {
+        return "Dish [name=" + name + ", price=" + price + ", type=" + type + ", recipe=" + recipe + "]";
+    }
+
+    
 }

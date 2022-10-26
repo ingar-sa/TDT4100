@@ -108,4 +108,5 @@ public class Menu {
     private boolean containsDish(String name) {
         return dishes.stream().anyMatch(dish -> dish.getName().equals(name));
     }
+    
 }
