@@ -1,4 +1,4 @@
-package ovinger.oving10;
+package ovinger.oving10.oppgave1;
 
 import java.util.ArrayList;
 import java.util.HashMap;

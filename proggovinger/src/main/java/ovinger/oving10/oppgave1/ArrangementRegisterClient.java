@@ -1,4 +1,4 @@
-package ovinger.oving10;
+package ovinger.oving10.oppgave1;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -116,7 +116,7 @@ public class ArrangementRegisterClient {
     }
     
     /**
-     * This function prints all the events at a given place
+     * This function prints events sorted, first by place, then type and finally date and time
      */
     private void printAllEventsSorted() {
         HashMap<String, HashMap<String, ArrayList<Arrangement>>> sortedEvents = arrangementRegister.getAllArrangementSorted();
@@ -133,7 +133,7 @@ public class ArrangementRegisterClient {
     }
 
     /**
-     * This function prints all the events at a given place
+     * This function prints all the events in a time interval
      */
     private void printEventsInTimeInterval() {        
         String startInfo = showInputDialog("Enter start date and time separated by space");
@@ -161,7 +161,7 @@ public class ArrangementRegisterClient {
     }
 
     /**
-     * This function prints all the events at a given place
+     * This function prints all the events on a given date
      */
     private void printEventsOnDate() {
         String date = showInputDialog("Enter date");
