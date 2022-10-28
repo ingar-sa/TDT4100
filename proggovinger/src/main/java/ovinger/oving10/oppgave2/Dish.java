@@ -5,39 +5,40 @@ package ovinger.oving10.oppgave2;
  * This class represents a dish.
  * A dish has a name, a price and a type (starter, main course or dessert)
  * and a recipe.
+ * 
  * @author Ingar S. Asheim
  */
 public class Dish {
     
-    /**
-     * The name of the dish
-     */
     private final String name;
-    /**
-     * The price of the dish
-     */
     private final double price;
-    /**
-     * The type of the dish
-     */
     private final String type;
-    /**
-     * The recipe of the dish
-     */
     private final String recipe;
     
     /**
      * The constructor takes all the parameters and initializes the fields
-     * @param name The name of the dish
-     * @param price The price of the dish
-     * @param type The type of the dish
-     * @param recipe The recipe of the dish
+     * @param name 
+     * @param price
+     * @param type 
+     * @param recipe
      */
     public Dish(String name, double price, String type, String recipe) {
         this.name = name;
         this.price = price;
         this.type = type;
         this.recipe = recipe;
+    }
+
+    /**
+     * Copy constructor for Dish
+     * 
+     * @param dish
+     */
+    public Dish(Dish dish) {
+        this.name = dish.name;
+        this.price = dish.price;
+        this.type = dish.type;
+        this.recipe = dish.recipe;
     }
 
     /**

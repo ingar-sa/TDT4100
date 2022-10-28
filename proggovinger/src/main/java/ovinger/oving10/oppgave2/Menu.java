@@ -1,6 +1,7 @@
 package ovinger.oving10.oppgave2;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
@@ -12,10 +13,7 @@ import java.util.NoSuchElementException;
  */
 public class Menu {
 
-    /**
-     * The list of dishes in the menu
-     */
-    private ArrayList<Dish> dishes;
+    private List<Dish> dishes;
 
     /**
      * The constructor initializes the field
@@ -27,7 +25,15 @@ public class Menu {
             throw new IllegalArgumentException("A menu must have at least two dishes");
         }
 
-        this.dishes = new ArrayList<>(dishes);
+        // TODO: Is the bottom impl. better, since it ensures deep copies
+        // of the dish objects, or is it overkill?
+
+        // this.dishes = new ArrayList<>(dishes);
+        this.dishes = copyDishes(dishes);
+    }
+
+    public Menu(Menu menu) {
+        this.dishes = menu.getDishes();
     }
 
     /**
@@ -57,12 +63,15 @@ public class Menu {
         dishes.remove(getDish(name));
     }
 
+    
     /**
-     * Returns a list of all the dishes in the menu
-     * @return A list of all the dishes in the menu
+     * Returns a deep copy of the dishes in the menu
+     * @return A list of all the dishes in in the menu
      */
     public ArrayList<Dish> getDishes() {
-        return new ArrayList<>(dishes);
+        // TODO: Better to change the copyDishes method
+        // to use List instead of ArrayList?
+        return copyDishes(new ArrayList<>(dishes));
     }
 
     /**
@@ -107,4 +116,14 @@ public class Menu {
         return dishes.stream().anyMatch(dish -> dish.getName().equals(name));
     }
     
+    /**
+     * Creates a deep copy of the list of dishes passed as a parameter
+     * @param dishes The list of dishes to copy
+     * @return A deep copy of the list of dishes passed as a parameter
+     */
+    private ArrayList<Dish> copyDishes(ArrayList<Dish> dishes) {
+        ArrayList<Dish> newDishList = new ArrayList<>();
+        dishes.stream().forEach(dish -> newDishList.add(new Dish(dish)));
+        return newDishList;
+    }
 }
