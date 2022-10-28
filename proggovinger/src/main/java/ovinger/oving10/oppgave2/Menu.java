@@ -9,6 +9,7 @@ import java.util.NoSuchElementException;
  * of multiple Dish objects. It allows the user
  * to add and remove dishes, and to get the total 
  * price of the menu
+ * 
  * @author Ingar S. Asheim
  */
 public class Menu {
@@ -41,6 +42,7 @@ public class Menu {
      * @param dish The dish to add
      */
     public void addDish(Dish dish) {
+        //TODO; Should this be a deep copy?
         dishes.add(dish);
     }
 
@@ -63,7 +65,6 @@ public class Menu {
         dishes.remove(getDish(name));
     }
 
-    
     /**
      * Returns a deep copy of the dishes in the menu
      * @return A list of all the dishes in in the menu
@@ -81,8 +82,9 @@ public class Menu {
      * @throws NoSuchElementException if the menu does not contain the dish
      */
     public Dish getDish(String name) {
-        //TODO: Is this the correct way of handling this?
-        // We don't necessarily want to crash the program if the dish is not found
+        // TODO: Is this the correct way of handling not finding an element?
+        // Also, should this return a deep copy of the dish, or is this a case
+        // where you would want to return the actual object?
         try {
             return dishes.stream().filter(dish -> dish.getName().equals(name)).findFirst().get();
         } catch (NoSuchElementException e) {

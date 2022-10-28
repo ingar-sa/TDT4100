@@ -13,9 +13,6 @@ import java.util.NoSuchElementException;
  */
 public final class Client {
 
-    /**
-     * The registry of menus and dishes
-     */
     private MenuRegistry registry;
 
     /**
@@ -113,7 +110,7 @@ public final class Client {
     private void printDishesOfType() {
         String type = showInputDialog("Enter type: ");
         try {
-            registry.getDishesOfType(type).stream().forEach(System.out::println);
+            registry.getDishesByType(type).stream().forEach(System.out::println);
         } catch (NoSuchElementException e) {
             e.printStackTrace();
             System.out.println("Dishes of type " + type + " not found");
@@ -181,6 +178,9 @@ public final class Client {
         // Test code
         client.registry.addDish(new Dish("Pasta", 100, "Main", "Cook pasta"));
         client.registry.addDish(new Dish("Tagliateelle", 120, "Main", "Cook pasta"));
-        client.registry.addDish(new Dish("Pasta", 100, "Main", "Cook pasta"));
+        client.registry.addDish(new Dish("Macaroni", 100, "Main", "Cook pasta"));
+        client.registry.addDish(new Dish("Pastrami", 50, "Appetizer", "Cook pasta"));
+        client.registry.addDish(new Dish("Salad", 200, "Appetizer", "Cut vegetables"));
+        client.registry.addDish(new Dish("Ice cream", 25, "Dessert", "Freeze milk"));
     }
 }

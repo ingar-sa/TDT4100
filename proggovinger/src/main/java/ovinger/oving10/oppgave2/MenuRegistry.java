@@ -2,6 +2,8 @@ package ovinger.oving10.oppgave2;
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * This class represents a registry of menus and dishes.
@@ -12,16 +14,11 @@ import java.util.NoSuchElementException;
  * @author Ingar S. Asheim
  */
 public final class MenuRegistry {
-    
-    /**
-     * The list of menus.
-     */
+
     private ArrayList<Menu> menus;
-    /**
-     * The list of dishes.
-     */
-    private ArrayList<Dish> dishes;
     
+    private ArrayList<Dish> dishes;
+
     /**
      * The constructor initializes the fields.
      */
@@ -35,13 +32,14 @@ public final class MenuRegistry {
      * @param menu The menu to add
      */
     public void addMenu(Menu menu) {
+        //TODO: Should this be a deep copy, i.e. new Menu(menu)?
         menus.add(menu);
     }
 
     /**
      * Creates a menu from the dishes with the names passed as parameters
      * and adds it to the registry.
-     * @param menu The list of the names of the dishes to add to the menu
+     * @param dishNames The list of the names of the dishes to add to the menu
      * @throws IllegalArgumentException if the menu does not contain at least two dishes
      * @throws NoSuchElementException if the menu does not contain a dish with the name passed as a parameter
      */
@@ -49,7 +47,7 @@ public final class MenuRegistry {
         ArrayList<Dish> menuDishes = new ArrayList<Dish>();
 
         try {
-            menuDishes = dishNames.stream().map(name -> getDishByName(name)).collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+            menuDishes = dishNames.stream().map(name -> getDishByName(name)).collect(Collectors.toCollection(ArrayList::new));
         } catch (NoSuchElementException e) {
             throw new NoSuchElementException("One or more of the dishes does not exist");
         }
@@ -71,7 +69,7 @@ public final class MenuRegistry {
     
     /**
      * Gets the dish with the name passed as an argument
-     * @param name Name of the dish to get
+     * @param name Name of the dish
      * @return The dish with the name passed as an argument
      * @throws NoSuchElementException if no dish with the name passed as an argument exists
      */
@@ -89,9 +87,9 @@ public final class MenuRegistry {
      * @return A list of all dishes of the type passed as an argument
      * @throws NoSuchElementException If there are no dishes of the type passed as an argument
      */
-    public ArrayList<Dish> getDishesOfType(String type) {
+    public ArrayList<Dish> getDishesByType(String type) {
         try {
-            return dishes.stream().filter(dish -> dish.getType().equals(type)).collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+            return dishes.stream().filter(dish -> dish.getType().equals(type)).collect(Collectors.toCollection(ArrayList::new));
         } catch (NoSuchElementException e) {
             throw new NoSuchElementException("There are no dishes of the type " + type);
         }
@@ -108,11 +106,11 @@ public final class MenuRegistry {
      */
     public ArrayList<Menu> getMenusInPriceRange(double min, double max) {
         if (!(min < max) && !(min >= 0)) {
-            throw new IllegalArgumentException("The minimum price must be less than the maximum price and must be greater than or equal to zero");
+            throw new IllegalArgumentException("The minimum price must be must be greater than or equal to zero and less than the maximum price.");
         }
 
         try {
-            return menus.stream().filter(menu -> menu.getTotalPrice() >= min && menu.getTotalPrice() <= max).collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+            return menus.stream().filter(menu -> menu.getTotalPrice() >= min && menu.getTotalPrice() <= max).collect(Collectors.toCollection(ArrayList::new));
         } catch (NoSuchElementException e) {
             throw new NoSuchElementException("There are no menus within the price range " + min + " - " + max);
         }
