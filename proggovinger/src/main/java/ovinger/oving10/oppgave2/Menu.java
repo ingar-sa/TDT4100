@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 /**
- * @author Ingar S. Asheim
- * 
  * This class represents a menu. A menu consists
  * of multiple Dish objects. It allows the user
  * to add and remove dishes, and to get the total 
  * price of the menu
+ * @author Ingar S. Asheim
  */
 public class Menu {
 

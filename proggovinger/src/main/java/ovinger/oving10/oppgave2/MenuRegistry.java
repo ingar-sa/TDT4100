@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 /**
- * @author Ingar S. Asheim
- * 
  * This class represents a registry of menus and dishes.
  * It allows the user to add and remove menus and dishes.
  * It also allows the user to find a dish by name, all dishes
  * of a certain type, and all dishes in a certain price range.
+ * 
+ * @author Ingar S. Asheim
  */
 public final class MenuRegistry {
     

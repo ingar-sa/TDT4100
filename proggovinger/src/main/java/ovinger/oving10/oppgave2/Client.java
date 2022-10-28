@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 /**
- * @author Ingar S. Asheim
- * 
  * A client program for the MenuRegistry class
  * that allows the user to interact with the registry.
+ * 
+ * @author Ingar S. Asheim
  */
 public final class Client {
 

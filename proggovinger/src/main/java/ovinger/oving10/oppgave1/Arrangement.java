@@ -2,10 +2,10 @@ package ovinger.oving10.oppgave1;
 
 
 /**
- * @author Ingar S. Asheim
- * 
  * This class represents an event.
  * An event has an id, a date, a time, a name, a place, a host and a type.
+ * 
+ * @author Ingar S. Asheim
  */
 public class Arrangement {
     

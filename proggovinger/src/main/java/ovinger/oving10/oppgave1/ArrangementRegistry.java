@@ -11,9 +11,7 @@ import java.util.HashMap;
  * @author Ingar S. Asheim
  */
 public final class ArrangementRegistry {
-    /**
-     * The ArrayList containing all the Arrangement object
-     */
+    
     private ArrayList<Arrangement> arrangementer;
 
     /**
@@ -44,6 +42,7 @@ public final class ArrangementRegistry {
      * @param type What type of event it is
      */
     public void addArrangement(int id, int date, int time, String name, String place, String host, String type) {
+        // TODO: Should object arguments be added with new?
         arrangementer.add(new Arrangement(id, date, time, name, place, host, type));
     }
 
@@ -56,9 +55,12 @@ public final class ArrangementRegistry {
      */
      //TODO: Heller utløse et NoSuchElementException?
     public ArrayList<Arrangement> getArrangementerAtPlace(String place) {
-        return arrangementer.stream().filter(arrangement -> arrangement.getPlace().equals(place))
-                        .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
-                        
+        ArrayList<Arrangement> arrangementerAtPlace = new ArrayList<Arrangement>();
+        arrangementer.stream().filter((arrangement) -> (arrangement.getPlace().equals(place))).forEach((arrangement) -> {
+            arrangementerAtPlace.add(new Arrangement(arrangement));
+        });
+
+        return arrangementerAtPlace;                            
     }
 
     /**
@@ -70,8 +72,14 @@ public final class ArrangementRegistry {
      */
     //TODO: Skrive typer for input og returverdi i javadoc?
     public ArrayList<Arrangement> getArrangementOnDate(int date) {
-        return arrangementer.stream().filter(arrangement -> arrangement.getDate() == date)
-                            .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+        ArrayList<Arrangement> arrangementerOnDate = new ArrayList<Arrangement>();
+        arrangementer.stream().filter(arrangement -> arrangement.getDate() == date).forEach(arrangement -> 
+            {arrangementerOnDate.add(new Arrangement(arrangement));
+        });
+
+        //TODO: Does this need to have the new ArrayList<>() syntax, since the arraylist 
+        // already consists of deep copied objects?
+        return arrangementerOnDate;
     }
 
    /**
@@ -89,24 +97,28 @@ public final class ArrangementRegistry {
         ArrayList<Arrangement> arrangementerBetweenTimes = new ArrayList<Arrangement>();
         
         if (date1And2 > 0 || (date1And2 == 0 && time1And2 > 0)) {
+                            // First find all events between the dates
             arrangementer.stream().filter(arrangement -> arrangement.getDate() - date1 >= 0 && arrangement.getDate() - date2 <= 0)
+                            // Then find all the events that are within the time interval
                             .filter(arrangement -> arrangement.getTime() - time1 >= 0 && arrangement.getTime() - time2 <= 0)
-                            .forEach(arrangement -> arrangementerBetweenTimes.add(arrangement));
+                            .forEach(arrangement -> arrangementerBetweenTimes.add(new Arrangement(arrangement)));
         }              
         else {
             throw new IllegalArgumentException("The first date and time must be before the second date and time");
         }
 
         arrangementerBetweenTimes.stream().sorted((arr1, arr2) -> {
-            if (arr1.getDate() - arr2.getDate() == 0) {
-                return arr1.getTime() - arr2.getTime();
+            //If dates are the same, sort by time
+            int dateDiff = arr1.getDate() - arr2.getDate();
+            if (dateDiff != 0) {
+                return dateDiff;
             }
-            else {
-                return arr1.getDate() - arr2.getDate();
-            }
+            return arr1.getTime() - arr2.getTime();
         });
 
-        return new ArrayList<>(arrangementerBetweenTimes);
+        //TODO: Does this need to have the new ArrayList<>() syntax,
+        // since the arraylist already consists of deep copied objects?
+        return arrangementerBetweenTimes;
     }
 
     
@@ -116,56 +128,65 @@ public final class ArrangementRegistry {
      * 
      * @return A HashMap of HashMaps of ArrayLists of Arrangement objects
      */
-    public HashMap<String, HashMap<String, ArrayList<Arrangement>>> getAllArrangementSorted() {
+    // public HashMap<String, HashMap<String, ArrayList<Arrangement>>> getAllArrangementSorted() {
 
-        // HashMap<Event place, HashMap<Event type, ArrayList<Events sorted by time>>>
-        HashMap<String, HashMap<String, ArrayList<Arrangement>>> mapByPlace = new HashMap<String, HashMap<String, ArrayList<Arrangement>>>();
+    //     // HashMap<Event place, HashMap<Event type, ArrayList<Events sorted by time>>>
+    //     HashMap<String, HashMap<String, ArrayList<Arrangement>>> mapByPlace = new HashMap<String, HashMap<String, ArrayList<Arrangement>>>();
 
-        arrangementer.stream().forEach(arrangement -> {
+    //     arrangementer.stream().forEach(arrangement -> {
 
-            // If mapByPlace contains events at this place, we have to sort by type
-            if (mapByPlace.containsKey(arrangement.getPlace())) {
+    //         // If mapByPlace contains events at this place, we have to sort by type
+    //         if (mapByPlace.containsKey(arrangement.getPlace())) {
 
-                HashMap<String, ArrayList<Arrangement>> arrangementerAtPlace = mapByPlace.get(arrangement.getPlace());
+    //             HashMap<String, ArrayList<Arrangement>> arrangementerAtPlace = mapByPlace.get(arrangement.getPlace());
 
-                // If arrangementerAtPlace contains events of this type, we have to sort by time
-                if (arrangementerAtPlace.containsKey(arrangement.getType())) {
+    //             // If arrangementerAtPlace contains events of this type, we have to sort by time
+    //             if (arrangementerAtPlace.containsKey(arrangement.getType())) {
 
-                    ArrayList<Arrangement> arrangementerOfType = arrangementerAtPlace.get(arrangement.getType());
-                    arrangementerOfType.add(arrangement);
-                    arrangementerOfType.sort((arrangement1, arrangement2) -> {
-                        int compareDates = arrangement1.getDate() - arrangement2.getDate();
-                        if (compareDates == 0) {
-                            return arrangement1.getTime() - arrangement2.getTime();
-                        } else {
-                            return compareDates;
-                        }
-                    });
-                }
-                // Else create a new list for events of this type
-                else {
+    //                 ArrayList<Arrangement> arrangementerOfType = arrangementerAtPlace.get(arrangement.getType());
+    //                 arrangementerOfType.add(arrangement);
+    //                 arrangementerOfType.sort((arrangement1, arrangement2) -> {
+    //                     int compareDates = arrangement1.getDate() - arrangement2.getDate();
+    //                     if (compareDates == 0) {
+    //                         return arrangement1.getTime() - arrangement2.getTime();
+    //                     } else {
+    //                         return compareDates;
+    //                     }
+    //                 });
+    //             }
+    //             // Else create a new list for events of this type
+    //             else {
 
-                    ArrayList<Arrangement> arrangementerOfType = new ArrayList<Arrangement>();
-                    arrangementerOfType.add(arrangement);
-                    arrangementerAtPlace.put(arrangement.getType(), arrangementerOfType);
-                }
-            }
-            // Else create a new map for events at this place, and then put a list with *arrangement* in the new map
-            else {
+    //                 ArrayList<Arrangement> arrangementerOfType = new ArrayList<Arrangement>();
+    //                 arrangementerOfType.add(arrangement);
+    //                 arrangementerAtPlace.put(arrangement.getType(), arrangementerOfType);
+    //             }
+    //         }
+    //         // Else create a new map for events at this place, and then put a list with *arrangement* in the new map
+    //         else {
                 
-                HashMap<String, ArrayList<Arrangement>> mapForEventType = new HashMap<String, ArrayList<Arrangement>>();
-                ArrayList<Arrangement> listByEventTime = new ArrayList<Arrangement>(); 
+    //             HashMap<String, ArrayList<Arrangement>> mapForEventType = new HashMap<String, ArrayList<Arrangement>>();
+    //             ArrayList<Arrangement> listByEventTime = new ArrayList<Arrangement>(); 
 
-                listByEventTime.add(arrangement);
-                mapForEventType.put(arrangement.getType(), listByEventTime);
-                mapByPlace.put(arrangement.getPlace(), mapForEventType);
-            }
-        });
+    //             listByEventTime.add(arrangement);
+    //             mapForEventType.put(arrangement.getType(), listByEventTime);
+    //             mapByPlace.put(arrangement.getPlace(), mapForEventType);
+    //         }
+    //     });
 
-        return new HashMap<>(mapByPlace);
-    } 
+    //     return new HashMap<>(mapByPlace);
+    // } 
 
-    
+    public ArrayList<Arrangement> getAllEventsSorted() {
+        ArrayList<Arrangement> sortedEvents = new ArrayList<Arrangement>();
+        arrangementer.stream().forEach(arrangement -> sortedEvents.add(new Arrangement(arrangement)));
+        sortedEvents.sort(new ArrangementComparator());
+
+        //TODO: Does this need to have the new ArrayList<>() syntax, 
+        // since the arraylist already consists of deep copied objects?
+        return sortedEvents;
+    }
+
 
     //TODO: Be om godkjenning fra Trym
     

@@ -5,24 +5,21 @@ import java.util.HashMap;
 import static javax.swing.JOptionPane.*;
 
 /**
- * @author Ingar S. Asheim
- * 
  * This class is a client for the ArrangementRegister class. It uses showInputDialog
  * windows to get input from the user and then calls the appropriate methods.
  * It has basic error handling for invalid inputs.
  * 
  * It allows a user to add new events, get events by place, date or time interval,
  * and get all events sorted first by place, then type and finally date.
+ * 
+ * @author Ingar S. Asheim
  */
 public final class ArrangementRegistryClient {
 
-    /**
-     * The register of events
-     */
     private ArrangementRegistry arrangementRegistry;
 
     /**
-     * The constructor initializes the register of events
+     * The constructor takes no argumetns and initializes the fields
      */
     ArrangementRegistryClient() {
         arrangementRegistry = new ArrangementRegistry();
@@ -30,7 +27,7 @@ public final class ArrangementRegistryClient {
 
     /**
      * This function is the main loop of the program. It displays a menu and
-     * calls the appropriate functions based on the user's input.
+     * calls the appropriate functions based on the users input.
      */
     public void runClient() {       
         boolean userchooses = true;
@@ -113,18 +110,25 @@ public final class ArrangementRegistryClient {
     /**
      * This function prints events sorted, first by place, then type and finally date and time
      */
-    private void printAllEventsSorted() {
-        HashMap<String, HashMap<String, ArrayList<Arrangement>>> sortedEvents = arrangementRegistry.getAllArrangementSorted();
+    // private void printAllEventsSorted() {
+    //     HashMap<String, HashMap<String, ArrayList<Arrangement>>> sortedEvents = arrangementRegistry.getAllArrangementSorted();
 
-        for (String place : sortedEvents.keySet()) {
-            System.out.println(place);
-            for (String type : sortedEvents.get(place).keySet()) {
-                System.out.println("\t" + type);
-                for (Arrangement arrangement : sortedEvents.get(place).get(type)) {
-                    System.out.println("\t\t" + arrangement);
-                }
-            }
-        }
+    //     for (String place : sortedEvents.keySet()) {
+    //         System.out.println(place);
+    //         for (String type : sortedEvents.get(place).keySet()) {
+    //             System.out.println("\t" + type);
+    //             for (Arrangement arrangement : sortedEvents.get(place).get(type)) {
+    //                 System.out.println("\t\t" + arrangement);
+    //             }
+    //         }
+    //     }
+    // }
+
+    /**
+     * This function prints events sorted, first by place, then type and finally date and time
+     */
+    private void printAllEventsSorted() {
+        arrangementRegistry.getAllEventsSorted().stream().forEach(System.out::println);
     }
 
     /**

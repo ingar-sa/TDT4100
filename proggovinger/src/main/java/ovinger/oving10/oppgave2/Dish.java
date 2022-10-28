@@ -2,10 +2,10 @@ package ovinger.oving10.oppgave2;
 
 
 /**
- * @author Ingar S. Asheim
  * This class represents a dish.
  * A dish has a name, a price and a type (starter, main course or dessert)
  * and a recipe.
+ * @author Ingar S. Asheim
  */
 public class Dish {
     
