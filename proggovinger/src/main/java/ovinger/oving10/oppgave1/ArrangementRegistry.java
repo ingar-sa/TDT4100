@@ -104,6 +104,8 @@ public final class ArrangementRegistry {
                             .forEach(arrangement -> arrangementerBetweenTimes.add(new Arrangement(arrangement)));
         }              
         else {
+            //TODO: Should you use handling of exceptions in the method that calls this method as a way of
+            // handling invalid input? 
             throw new IllegalArgumentException("The first date and time must be before the second date and time");
         }
 

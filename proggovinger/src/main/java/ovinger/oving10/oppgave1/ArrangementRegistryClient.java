@@ -128,7 +128,32 @@ public final class ArrangementRegistryClient {
      * This function prints events sorted, first by place, then type and finally date and time
      */
     private void printAllEventsSorted() {
-        arrangementRegistry.getAllEventsSorted().stream().forEach(System.out::println);
+        ArrayList<Arrangement> sortedEvents = arrangementRegistry.getAllEventsSorted();
+        String currentPlace = new String();
+        String currentType = new String();
+        int currentDate = 0;
+        int currentTime = 0;
+
+        for (Arrangement arrangement : sortedEvents) {
+            if (!currentPlace.equals(arrangement.getPlace())) {
+                currentPlace = arrangement.getPlace();
+                System.out.println(currentPlace);
+            }
+            if (!currentType.equals(arrangement.getType())) {
+                currentType = arrangement.getType();
+                System.out.println("\t" + currentType);
+            }
+            if (currentDate != arrangement.getDate()) {
+                currentDate = arrangement.getDate();
+                currentTime = arrangement.getTime();
+                System.out.println("\t\t" + currentDate + " " + currentTime + " " + arrangement.getName());
+            } else if (currentTime != arrangement.getTime()) {
+                currentTime = arrangement.getTime();
+                System.out.println("\t\t" + currentDate + " " + currentTime + " " + arrangement.getName());
+            } else {
+                System.out.println("\t\t" + currentDate + " " + currentTime + " " + arrangement.getName());
+            }    
+        }
     }
 
     /**
@@ -199,9 +224,13 @@ public final class ArrangementRegistryClient {
         client.addEventDebug(new Arrangement(5, 20150103, 1900, "Arrangement5", "Oslo", "Ingar", "Konferanse"));
 
         // 6 20221025 1600 Foo Kube95 Ingar Progging
-        // 7 20221025 2100 Foo Kube95 Ingar YouTube-seeing
+        client.addEventDebug(new Arrangement(6, 20221025, 1600, "Foo", "Kube95", "Ingar", "Progging"));
+        // 7 20221025 2100 Foo Kube95 Ingar YouTube-seeing1
+        client.addEventDebug(new Arrangement(7, 20221025, 2100, "Foo", "Kube95", "Ingar", "YouTube-seeing1"));
         // 8 20221025 2100 Foo Kube95 Ingar Tidsparadoks
-        // 9 20221025 1800 Sabaton Oslo OsloSpektrum Konsert
+        client.addEventDebug(new Arrangement(8, 20221025, 2100, "Foo", "Kube95", "Ingar", "Tidsparadoks"));
+        // 9 20221025 1800 Sabaton Oslo OsloSpektrum Konsert1
+        client.addEventDebug(new Arrangement(9, 20221025, 1800, "Sabaton", "Oslo", "OsloSpektrum", "Konsert1"));
 
         client.runClient();
         
