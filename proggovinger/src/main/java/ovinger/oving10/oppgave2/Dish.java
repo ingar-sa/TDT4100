@@ -7,7 +7,7 @@ package ovinger.oving10.oppgave2;
  * A dish has a name, a price and a type (starter, main course or dessert)
  * and a recipe.
  */
-public final class Dish {
+public class Dish {
     
     /**
      * The name of the dish

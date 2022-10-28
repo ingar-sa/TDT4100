@@ -4,14 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * This class represents a register of events, represented by Arrangement objects.
+ * This class represents a registry of events, represented by Arrangement objects.
  * It allows you to add new events, get events by place, date or time interval,
  * and get all events sorted first by place, then type and finally date
  * 
  * @author Ingar S. Asheim
  */
-public class ArrangementRegister {
-    
+public final class ArrangementRegistry {
     /**
      * The ArrayList containing all the Arrangement object
      */
@@ -21,7 +20,7 @@ public class ArrangementRegister {
      * The constructor takes no arguments and initializes the list of
      * Arrangement objects
      */
-    public ArrangementRegister() {
+    public ArrangementRegistry() {
         arrangementer = new ArrayList<Arrangement>();
     }
 
@@ -57,11 +56,9 @@ public class ArrangementRegister {
      */
      //TODO: Heller utløse et NoSuchElementException?
     public ArrayList<Arrangement> getArrangementerAtPlace(String place) {
-        ArrayList<Arrangement> arrangementerAtPlace = new ArrayList<Arrangement>();
-        arrangementer.stream().filter(arrangement -> arrangement.getPlace().equals(place))
-                        .forEach(arrangement -> arrangementerAtPlace.add(arrangement));
-        
-        return new ArrayList<>(arrangementerAtPlace);
+        return arrangementer.stream().filter(arrangement -> arrangement.getPlace().equals(place))
+                        .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+                        
     }
 
     /**
@@ -73,11 +70,8 @@ public class ArrangementRegister {
      */
     //TODO: Skrive typer for input og returverdi i javadoc?
     public ArrayList<Arrangement> getArrangementOnDate(int date) {
-        ArrayList<Arrangement> arrangementerOnDate = new ArrayList<Arrangement>();
-        arrangementer.stream().filter(arrangement -> arrangement.getDate() == date)
-                        .forEach(arrangement -> arrangementerOnDate.add(arrangement));
-
-        return new ArrayList<>(arrangementerOnDate);
+        return arrangementer.stream().filter(arrangement -> arrangement.getDate() == date)
+                            .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
     }
 
    /**
@@ -170,5 +164,9 @@ public class ArrangementRegister {
 
         return new HashMap<>(mapByPlace);
     } 
+
+    
+
+    //TODO: Be om godkjenning fra Trym
     
 }

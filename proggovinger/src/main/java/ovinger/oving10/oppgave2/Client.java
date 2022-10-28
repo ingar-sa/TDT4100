@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
  * A client program for the MenuRegistry class
  * that allows the user to interact with the registry.
  */
-public class Client {
+public final class Client {
 
     /**
      * The registry of menus and dishes
@@ -104,7 +104,6 @@ public class Client {
             e.printStackTrace();
             System.out.println("Dish not found");
         }
-        
     }
 
     /**
@@ -151,6 +150,7 @@ public class Client {
             e.printStackTrace();
             System.out.println("One or more of the dishes does not exist");
         }
+        //TODO: Handle general exceptions as well?
     }
 
     /**
@@ -158,9 +158,9 @@ public class Client {
      * It uses showInputDialog windows to get input from the user.
      */
     private void printMenusInPriceRange() {
-        double min = Double.parseDouble(showInputDialog("Enter min price: "));
-        double max = Double.parseDouble(showInputDialog("Enter max price: "));
         try {
+            double min = Double.parseDouble(showInputDialog("Enter min price: "));
+            double max = Double.parseDouble(showInputDialog("Enter max price: "));    
             registry.getMenusInPriceRange(min, max).stream().forEach(System.out::println);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
@@ -168,10 +168,19 @@ public class Client {
         } catch (NoSuchElementException e) {
             e.printStackTrace();
             System.out.println("No menus in the price range");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Illegal input");
         }
     }
     
     public static void main(String[] args) {
         Client client = new Client();
+        client.runClient();
+        
+        // Test code
+        client.registry.addDish(new Dish("Pasta", 100, "Main", "Cook pasta"));
+        client.registry.addDish(new Dish("Tagliateelle", 120, "Main", "Cook pasta"));
+        client.registry.addDish(new Dish("Pasta", 100, "Main", "Cook pasta"));
     }
 }

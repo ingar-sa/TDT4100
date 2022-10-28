@@ -2,7 +2,6 @@ package ovinger.oving10.oppgave1;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
 import static javax.swing.JOptionPane.*;
 
 /**
@@ -15,18 +14,18 @@ import static javax.swing.JOptionPane.*;
  * It allows a user to add new events, get events by place, date or time interval,
  * and get all events sorted first by place, then type and finally date.
  */
-public class ArrangementRegisterClient {
+public final class ArrangementRegistryClient {
 
     /**
      * The register of events
      */
-    private ArrangementRegister arrangementRegister;
+    private ArrangementRegistry arrangementRegistry;
 
     /**
      * The constructor initializes the register of events
      */
-    ArrangementRegisterClient() {
-        arrangementRegister = new ArrangementRegister();
+    ArrangementRegistryClient() {
+        arrangementRegistry = new ArrangementRegistry();
     }
 
     /**
@@ -46,7 +45,6 @@ public class ArrangementRegisterClient {
                     + "6. Avslutt\n"); 
 
             try {
-                // int choice = scanner.nextInt();
                 int choice = Integer.parseInt(showInputDialog("Enter choice: "));
             
                 switch (choice) {
@@ -76,8 +74,6 @@ public class ArrangementRegisterClient {
             } catch (Exception e) {
                 System.out.println("Ulovlig valg");
             }
-
-          
         }
     }
 
@@ -85,7 +81,7 @@ public class ArrangementRegisterClient {
      * This function adds a new event to the register
      */
     private void addEventDebug(Arrangement arrangement) {
-        arrangementRegister.addArrangement(arrangement);
+        arrangementRegistry.addArrangement(arrangement);
     }
     
     /**
@@ -96,8 +92,7 @@ public class ArrangementRegisterClient {
         String[] eventInfoArray = input.split(" ");
 
         if (eventInfoArray.length != 7) {
-            System.err.println("Wrong number of arguments");
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Wrong number of arguments");
         }
 
         try {
@@ -109,7 +104,7 @@ public class ArrangementRegisterClient {
             String host = eventInfoArray[5];
             String type = eventInfoArray[6];
 
-            arrangementRegister.addArrangement(id, date, time, name, place, host, type);
+            arrangementRegistry.addArrangement(id, date, time, name, place, host, type);
         } catch (Exception e) {
             throw new IllegalArgumentException("Invalid input");
         }
@@ -119,7 +114,7 @@ public class ArrangementRegisterClient {
      * This function prints events sorted, first by place, then type and finally date and time
      */
     private void printAllEventsSorted() {
-        HashMap<String, HashMap<String, ArrayList<Arrangement>>> sortedEvents = arrangementRegister.getAllArrangementSorted();
+        HashMap<String, HashMap<String, ArrayList<Arrangement>>> sortedEvents = arrangementRegistry.getAllArrangementSorted();
 
         for (String place : sortedEvents.keySet()) {
             System.out.println(place);
@@ -142,8 +137,7 @@ public class ArrangementRegisterClient {
         String[] endInfoArray = endInfo.split(" ");
 
         if (startInfoArray.length != 2 || endInfoArray.length != 2) {
-            System.err.println("Wrong number of arguments");
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Wrong number of arguments");
         }
 
         try {
@@ -152,7 +146,7 @@ public class ArrangementRegisterClient {
             int endDate = Integer.parseInt(endInfoArray[0]);
             int endTime = Integer.parseInt(endInfoArray[1]);
 
-            arrangementRegister.getArrangementBetweenTimes(startDate, startTime, endDate, endTime).stream().forEach((arrangement) -> {
+            arrangementRegistry.getArrangementBetweenTimes(startDate, startTime, endDate, endTime).stream().forEach((arrangement) -> {
                 System.out.println(arrangement);
             });
         } catch (Exception e) {
@@ -169,11 +163,9 @@ public class ArrangementRegisterClient {
         try {
             int dateInt = Integer.parseInt(date);
 
-            ArrayList<Arrangement> events = arrangementRegister.getArrangementOnDate(dateInt);
-
-            for (Arrangement arrangement : events) {
+            arrangementRegistry.getArrangementOnDate(dateInt).stream().forEach(arrangement -> {
                 System.out.println(arrangement);
-            }
+            });
         } catch (Exception e) {
             throw new IllegalArgumentException("Invalid input");
         }
@@ -185,17 +177,15 @@ public class ArrangementRegisterClient {
     private void printEventsAtPlace() {
         String place = showInputDialog("Enter place");
 
-        ArrayList<Arrangement> events = arrangementRegister.getArrangementerAtPlace(place);
+        ArrayList<Arrangement> events = arrangementRegistry.getArrangementerAtPlace(place);
 
         for (Arrangement arrangement : events) {
             System.out.println(arrangement);
         }
     }
 
-    
-
     public static void main(String[] args) {
-        ArrangementRegisterClient client = new ArrangementRegisterClient();
+        ArrangementRegistryClient client = new ArrangementRegistryClient();
 
         // Add many Arrangement for testing
         client.addEventDebug(new Arrangement(1, 20150101, 1800, "Arrangement1", "Oslo", "Ingar", "Konferanse"));
@@ -204,10 +194,10 @@ public class ArrangementRegisterClient {
         client.addEventDebug(new Arrangement(4, 20150102, 2000, "Arrangement4", "Oslo", "Ingar", "Konferanse"));
         client.addEventDebug(new Arrangement(5, 20150103, 1900, "Arrangement5", "Oslo", "Ingar", "Konferanse"));
 
-        // "6 20221025 1600 Foo Kube95 Ingar Progging"
-        // "7 20221025 2100 Foo Kube95 Ingar YouTube-seeing"
-        // "8 20221025 2100 Foo Kube95 Ingar Tidsparadoks"
-        // "9 20221025 1800 Sabaton Oslo OsloSpektrum Konsert"
+        // 6 20221025 1600 Foo Kube95 Ingar Progging
+        // 7 20221025 2100 Foo Kube95 Ingar YouTube-seeing
+        // 8 20221025 2100 Foo Kube95 Ingar Tidsparadoks
+        // 9 20221025 1800 Sabaton Oslo OsloSpektrum Konsert
 
         client.runClient();
         

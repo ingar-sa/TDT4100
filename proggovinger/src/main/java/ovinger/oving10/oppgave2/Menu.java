@@ -11,7 +11,6 @@ import java.util.NoSuchElementException;
  * to add and remove dishes, and to get the total 
  * price of the menu
  */
-
 public class Menu {
 
     /**
@@ -42,7 +41,7 @@ public class Menu {
 
     /**
      * Removes a dish from the menu
-     * @param dish The dish to remove
+     * @param dish Name of the dish to remove
      * @throws NoSuchElementException if the menu does not contain the dish
      * @throws NoSuchElementException if the menu contains only two dishes
      */
@@ -70,7 +69,7 @@ public class Menu {
     /**
      * Gets a dish with the name passed as a parameter
      * @param name name of the dish to get
-     * @return The dish with the name passed as a parameter
+     * @return The dish with the name passed as an argument
      * @throws NoSuchElementException if the menu does not contain the dish
      */
     public Dish getDish(String name) {

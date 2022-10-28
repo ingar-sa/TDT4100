@@ -9,9 +9,9 @@ import java.util.NoSuchElementException;
  * This class represents a registry of menus and dishes.
  * It allows the user to add and remove menus and dishes.
  * It also allows the user to find a dish by name, all dishes
- * of a certain type, and all dishes of a certain price range.
+ * of a certain type, and all dishes in a certain price range.
  */
-public class MenuRegistry {
+public final class MenuRegistry {
     
     /**
      * The list of menus.
@@ -21,7 +21,7 @@ public class MenuRegistry {
      * The list of dishes.
      */
     private ArrayList<Dish> dishes;
-
+    
     /**
      * The constructor initializes the fields.
      */
@@ -59,7 +59,6 @@ public class MenuRegistry {
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("A menu must have at least two dishes");
         }
-        
     }
 
     /**
