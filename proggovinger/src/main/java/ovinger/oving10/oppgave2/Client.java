@@ -133,9 +133,9 @@ public final class Client {
                 return;
             } else if (name.equals("1")) {
                 userchooses = false;
+            } else {
+                dishNames.add(name);
             }
-
-            dishNames.add(name);
         }
 
         try {
@@ -158,7 +158,7 @@ public final class Client {
         try {
             double min = Double.parseDouble(showInputDialog("Enter min price: "));
             double max = Double.parseDouble(showInputDialog("Enter max price: "));    
-            registry.getMenusInPriceRange(min, max).stream().forEach(System.out::println);
+            registry.getMenusInPriceRange(min, max).stream().forEach(menu -> menu.printMenu());
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
             System.out.println("Min price must be greater than or equal to 0 and less than max price");
@@ -173,14 +173,15 @@ public final class Client {
     
     public static void main(String[] args) {
         Client client = new Client();
-        client.runClient();
-        
-        // Test code
         client.registry.addDish(new Dish("Pasta", 100, "Main", "Cook pasta"));
         client.registry.addDish(new Dish("Tagliateelle", 120, "Main", "Cook pasta"));
         client.registry.addDish(new Dish("Macaroni", 100, "Main", "Cook pasta"));
         client.registry.addDish(new Dish("Pastrami", 50, "Appetizer", "Cook pasta"));
         client.registry.addDish(new Dish("Salad", 200, "Appetizer", "Cut vegetables"));
-        client.registry.addDish(new Dish("Ice cream", 25, "Dessert", "Freeze milk"));
+        client.registry.addDish(new Dish("Icecream", 25, "Dessert", "Freeze milk"));
+        client.runClient();
+        
+        // Test code
+        
     }
 }

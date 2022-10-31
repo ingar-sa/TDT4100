@@ -35,10 +35,11 @@ public class Dish {
      * @param dish
      */
     public Dish(Dish dish) {
-        this.name = dish.name;
+        //TODO: Should you use new on the strings?
+        this.name = new String(dish.name);
         this.price = dish.price;
-        this.type = dish.type;
-        this.recipe = dish.recipe;
+        this.type = new String(dish.type);
+        this.recipe = new String(dish.recipe);
     }
 
     /**

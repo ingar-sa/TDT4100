@@ -117,6 +117,11 @@ public class Menu {
     private boolean containsDish(String name) {
         return dishes.stream().anyMatch(dish -> dish.getName().equals(name));
     }
+
+    public void printMenu() {
+        System.out.println("Menu:");
+        dishes.forEach(dish -> System.out.println(dish));
+    }
     
     /**
      * Creates a deep copy of the list of dishes passed as a parameter
