@@ -3,6 +3,8 @@ package ovinger.oving11;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
+// TODO: Does it make sense to use aggregation here instead of composition?
+// The properties are going to be there even though the registry does not exist.
 /**
  * This class represents a registry of properties.
  * It has methos for adding and removing properties,
@@ -46,11 +48,11 @@ public class PropertyRegistry {
     // TODO: Is the description unnecessary, could we just have the param?
     /**
      * Removes a property from the registry.
-     * @param property The property to remove.
+     * @param property Id of the property to remove
      * @throws NoSuchElementException if the registry does not contain the property.
      */
-    public void removeProperty(Property property) {
-        if (!properties.remove(property)) {
+    public void removeProperty(String id) {
+        if (!properties.remove(getProperty(id))) {
             throw new NoSuchElementException("The property does not exist");
         }
     }
@@ -112,8 +114,6 @@ public class PropertyRegistry {
 
     /**
      * @return list with all the properties in the registry.
-     * 
-     * Needed in oppgave 4 a)
      */
     public ArrayList<Property> getAllProperties() {
         ArrayList<Property> allProperties = new ArrayList<>();

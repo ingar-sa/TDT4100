@@ -58,8 +58,8 @@ public class Property {
         this.propertyName = propertyName;
         this.ownerName = ownerName;
         this.municipalityNumber = numIsInRange(municipalityNumber, 101, 5054);
-        this.lotNumber = checkConstructorArgPositive(lotNumber, "Lot number");
-        this.sectionNumber = checkConstructorArgPositive(sectionNumber, "Section number");
+        this.lotNumber = isConstructorArgPositive(lotNumber, "Lot number");
+        this.sectionNumber = isConstructorArgPositive(sectionNumber, "Section number");
         this.area = checkConstructorArgPositive(area, "Area");
         
     }
@@ -175,7 +175,7 @@ public class Property {
      * @param num
      * @return true if num is positive
      */
-    private int checkConstructorArgPositive(int num, String argName) {
+    private int isConstructorArgPositive(int num, String argName) {
         if (num <= 0) {
             throw new IllegalArgumentException(argName + " must be positive");
         }

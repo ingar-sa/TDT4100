@@ -10,7 +10,7 @@ import java.util.NoSuchElementException;
  * The user can add properties, print all the properties in the registry,
  * search for a property and print the average area of all properties in the registry.
  */
-public class Client {
+public final class Client {
 
     private PropertyRegistry registry;
 
