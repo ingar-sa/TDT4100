@@ -147,6 +147,9 @@ public class Property {
 
     // TODO: Says "ved utskrift" in the assignment.
     // Should this be toString()?
+    /**
+     * @return the property id
+     */
     public String getId() {
         return municipalityNumber + "-" + lotNumber + "/" + sectionNumber;
     }
@@ -194,11 +197,12 @@ public class Property {
         return num;
     }
 
+    @Override
+    public String toString() {
+        return "Property{" + "municipalityName=" + municipalityName + ", propertyName=" + propertyName + ", ownerName=" + ownerName + ", municipalityNumber=" + municipalityNumber + ", lotNumber=" + lotNumber + ", sectionNumber=" + sectionNumber + ", area=" + area + '}';
+    }
+
     public static void main(String[] args) {
-        Property prop1 = new Property("Gloppen", "", "Jens Olsen", 1445, 77, 631, 1017.6);
-        Property prop2 = new Property("Gloppen", "Syningom", "Nicolay Madsen", 1445, 77, 131, 661.3);
-        Property prop3 = new Property("Gloppen", "Fugletun", "Evilyn Jensen", 1445, 75, 19, 650.6);
-        Property prop4 = new Property("Gloppen", "", "Karl Ove Braaten", 1445, 74, 188, 1457.2);
-        Property prop5 = new Property("Gloppen", "Hoiberg", "Elsa Indregaard", 1445, 69, 47, 1339.4);
+        
     }
 }
